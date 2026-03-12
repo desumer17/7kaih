@@ -696,50 +696,79 @@
       
       // Page dimensions: A4 landscape = 297 x 210 mm
       const pageWidth = doc.internal.pageSize.getWidth(); // 297
+      const pageHeight = doc.internal.pageSize.getHeight(); // 210
       const centerX = pageWidth / 2;
-      
-      // Header - Title (centered, uppercase)
-      doc.setFontSize(12);
-      doc.setFont(undefined, 'bold');
-      doc.text('JURNAL 7 KEBIASAAN ANAK INDONESIA HEBAT', centerX, 12, { align: 'center' });
-      
-      // School Name (centered, uppercase)
-      const schoolName = window.elementSdk?.config?.school_name || defaultConfig.school_name;
-      doc.text(schoolName.toUpperCase(), centerX, 18, { align: 'center' });
-      
-      // Student Info Section - stacked vertically on left (margin 1cm = 10mm)
-      // Font size and style same for identitas and periode, with single line spacing (spasi 1)
-      doc.setFontSize(8);
-      doc.setFont(undefined, 'normal');
       const leftMargin = 10;
-      const lineSpacing = 3.5; // Spasi 1 (tighter spacing)
+      const rightMargin = 10;
+      const lineSpacing = 3.5; // Spasi 1
       
-      let currentY = 26;
-      doc.text(`Nama Siswa: ${studentData.name}`, leftMargin, currentY);
-      currentY += lineSpacing;
-      doc.text(`Kelas: ${studentData.kelas}`, leftMargin, currentY);
-      currentY += lineSpacing;
-      doc.text(`No. Absen: ${studentData.absen}`, leftMargin, currentY);
-      
-      // Filter info - same font size and spacing
-      currentY += lineSpacing;
-      let filterText = 'Periode: ';
-      if (currentFilter === 'daily') {
-        filterText += 'Harian (' + formatDate(document.getElementById('select-date').value) + ')';
-      } else if (currentFilter === 'weekly') {
-        const selectedDate = new Date(document.getElementById('select-date').value);
-        const weekStart = getWeekStart(selectedDate);
-        const weekEnd = new Date(weekStart);
-        weekEnd.setDate(weekEnd.getDate() + 6);
-        filterText += 'Mingguan (' + formatDate(weekStart.toISOString().split('T')[0]) + ' - ' + formatDate(weekEnd.toISOString().split('T')[0]) + ')';
-      } else if (currentFilter === 'monthly') {
-        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-        filterText += months[parseInt(document.getElementById('select-month').value)] + ' ' + document.getElementById('select-year').value;
+      // Function untuk menambah header di setiap halaman
+      function addPageHeader() {
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'bold');
+        doc.text('JURNAL 7 KEBIASAAN ANAK INDONESIA HEBAT', centerX, 12, { align: 'center' });
+        
+        // School Name (centered, uppercase)
+        const schoolName = window.elementSdk?.config?.school_name || defaultConfig.school_name;
+        doc.text(schoolName.toUpperCase(), centerX, 18, { align: 'center' });
+        
+        // Student Info Section dengan dots alignment
+        doc.setFontSize(8);
+        doc.setFont(undefined, 'normal');
+        
+        // Hitung panjang teks untuk alignment dots
+        const labelWidth = 18; // Lebar label "Nama Siswa: ", dll
+        const dotsX = leftMargin + labelWidth;
+        
+        // Nama Siswa dengan dots
+        const namaText = `Nama Siswa:`;
+        doc.text(namaText, leftMargin, 26);
+        const namaWidth = doc.getTextWidth(namaText);
+        const dotsLength1 = (50 - namaWidth) / doc.getTextWidth('.');
+        doc.text('.'.repeat(Math.floor(dotsLength1)), leftMargin + namaWidth, 26);
+        doc.text(studentData.name, leftMargin + 50, 26);
+        
+        // Kelas dengan dots
+        const kelasText = `Kelas:`;
+        doc.text(kelasText, leftMargin, 26 + lineSpacing);
+        const kelasWidth = doc.getTextWidth(kelasText);
+        const dotsLength2 = (50 - kelasWidth) / doc.getTextWidth('.');
+        doc.text('.'.repeat(Math.floor(dotsLength2)), leftMargin + kelasWidth, 26 + lineSpacing);
+        doc.text(studentData.kelas, leftMargin + 50, 26 + lineSpacing);
+        
+        // No. Absen dengan dots
+        const absenText = `No. Absen:`;
+        doc.text(absenText, leftMargin, 26 + lineSpacing * 2);
+        const absenWidth = doc.getTextWidth(absenText);
+        const dotsLength3 = (50 - absenWidth) / doc.getTextWidth('.');
+        doc.text('.'.repeat(Math.floor(dotsLength3)), leftMargin + absenWidth, 26 + lineSpacing * 2);
+        doc.text(studentData.absen, leftMargin + 50, 26 + lineSpacing * 2);
+        
+        // Periode dengan dots
+        let filterText = 'Periode:';
+        let filterValue = '';
+        if (currentFilter === 'daily') {
+          filterValue = 'Harian (' + formatDate(document.getElementById('select-date').value) + ')';
+        } else if (currentFilter === 'weekly') {
+          const selectedDate = new Date(document.getElementById('select-date').value);
+          const weekStart = getWeekStart(selectedDate);
+          const weekEnd = new Date(weekStart);
+          weekEnd.setDate(weekEnd.getDate() + 6);
+          filterValue = 'Mingguan (' + formatDate(weekStart.toISOString().split('T')[0]) + ' - ' + formatDate(weekEnd.toISOString().split('T')[0]) + ')';
+        } else if (currentFilter === 'monthly') {
+          const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+          filterValue = months[parseInt(document.getElementById('select-month').value)] + ' ' + document.getElementById('select-year').value;
+        }
+        
+        doc.text(filterText, leftMargin, 26 + lineSpacing * 3);
+        const filterWidth = doc.getTextWidth(filterText);
+        const dotsLength4 = (50 - filterWidth) / doc.getTextWidth('.');
+        doc.text('.'.repeat(Math.floor(dotsLength4)), leftMargin + filterWidth, 26 + lineSpacing * 3);
+        doc.text(filterValue, leftMargin + 50, 26 + lineSpacing * 3);
       }
-      doc.text(filterText, leftMargin, currentY);
       
-      // Jarak 1 baris ke tabel (3.5mm)
-      const tableStartY = currentY + lineSpacing;
+      // Add header ke halaman pertama
+      addPageHeader();
       
       // Group data by date
       const dataByDate = {};
@@ -780,15 +809,24 @@
       });
       
       // Calculate table width to fit with 1cm margins
-      const rightMargin = 10;
       const tableWidth = pageWidth - leftMargin - rightMargin; // 277mm
       
       // Calculate column widths - equal for 7 habits
       const noColWidth = 8;
       const dateColWidth = 25;
-      const habitColWidth = (tableWidth - noColWidth - dateColWidth) / 7; // 32mm each
+      const habitColWidth = (tableWidth - noColWidth - dateColWidth) / 7; // ~32mm each
       
-      // Create table with calculated margins
+      // Jarak 1 baris ke tabel (3.5mm) dari periode
+      const tableStartY = 26 + lineSpacing * 4 + lineSpacing;
+      
+      // Space for signature section at bottom
+      const signatureSectionHeight = 35; // Denpasar + spacing + labels + lines
+      const rowHeight = 8; // Approximate row height
+      const minRowsBeforeSignature = 2; // Minimal 2 baris data sebelum tanda tangan
+      const minSpaceForSignature = signatureSectionHeight + (minRowsBeforeSignature * rowHeight);
+      const availableHeight = pageHeight - tableStartY - 15; // Available space per page
+      
+      // Create table with calculated margins, didThrow untuk handle multiple pages
       doc.autoTable({
         startY: tableStartY,
         head: [headers],
@@ -821,12 +859,71 @@
           7: { cellWidth: habitColWidth, halign: 'center' },
           8: { cellWidth: habitColWidth, halign: 'center' }
         },
-        margin: { left: leftMargin, right: rightMargin }
+        margin: { left: leftMargin, right: rightMargin },
+        didDrawPage: function(data) {
+          // Add header to setiap halaman baru kecuali yang pertama
+          if (data.pageNumber > 1) {
+            addPageHeader();
+            // Adjust table position pada halaman berikutnya
+            data.startY = tableStartY;
+          }
+        },
+        // Ensure signature section tidak terpisah ke halaman baru
+        pageBreak: 'always',
+        allowPageBreak: true,
+        rowPageBreak: 'avoid'
       });
       
-      // Add signature section
+      // Add signature section di halaman terakhir
       const finalY = doc.lastAutoTable.finalY;
-      const signatureStartY = finalY + 7; // 2 baris dari tabel (3.5 x 2 = 7mm)
+      const currentPage = doc.internal.getNumberOfPages();
+      
+      // Check if signature fit di halaman saat ini dengan minimal 2 baris data
+      // Jika tidak cukup ruang, pindah halaman (dan halaman baru akan punya header + 2 baris data)
+      if (finalY + minSpaceForSignature > pageHeight - 10) {
+        doc.addPage('landscape', 'a4');
+        addPageHeader();
+        // Re-draw table dengan 2 baris data di halaman terakhir
+        const lastTwoRows = tableData.slice(-2);
+        doc.autoTable({
+          startY: tableStartY,
+          head: [headers],
+          body: lastTwoRows,
+          theme: 'grid',
+          headStyles: {
+            fillColor: [255, 255, 255],
+            textColor: [0, 0, 0],
+            fontSize: 7,
+            fontStyle: 'bold',
+            halign: 'center',
+            valign: 'middle',
+            lineColor: [0, 0, 0],
+            lineWidth: 0.3
+          },
+          bodyStyles: {
+            fontSize: 7,
+            valign: 'top',
+            lineColor: [0, 0, 0],
+            lineWidth: 0.3
+          },
+          columnStyles: {
+            0: { cellWidth: noColWidth, halign: 'center' },
+            1: { cellWidth: dateColWidth, halign: 'left' },
+            2: { cellWidth: habitColWidth, halign: 'center' },
+            3: { cellWidth: habitColWidth, halign: 'center' },
+            4: { cellWidth: habitColWidth, halign: 'center' },
+            5: { cellWidth: habitColWidth, halign: 'center' },
+            6: { cellWidth: habitColWidth, halign: 'center' },
+            7: { cellWidth: habitColWidth, halign: 'center' },
+            8: { cellWidth: habitColWidth, halign: 'center' }
+          },
+          margin: { left: leftMargin, right: rightMargin },
+          pageBreak: 'avoid'
+        });
+        var signatureStartY = doc.lastAutoTable.finalY + 7;
+      } else {
+        var signatureStartY = finalY + 7; // 2 baris dari tabel
+      }
       
       doc.setFontSize(8);
       doc.setFont(undefined, 'normal');
@@ -874,5 +971,5 @@
       }
     });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9daff4a1e5d55682',t:'MTc3MzI4ODY5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9db0013d2418e794',t:'MTc3MzI4OTIxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
