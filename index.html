@@ -95,8 +95,10 @@
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full bg-slate-50 overflow-auto">
-  <div id="app" class="w-full min-h-full pb-8"><!-- Header -->
-   <header class="bg-gradient-to-br from-royal via-blue-400 to-cyan-500 text-white pt-8 pb-16 px-4 rounded-b-[2.5rem] shadow-lg shadow-blue-400/30 relative overflow-hidden"><!-- Animated background decorations -->
+  <div id="app" class="w-full min-h-full pb-8">
+   <!-- Header -->
+   <header class="bg-gradient-to-br from-royal via-blue-400 to-cyan-500 text-white pt-8 pb-16 px-4 rounded-b-[2.5rem] shadow-lg shadow-blue-400/30 relative overflow-hidden">
+    <!-- Animated background decorations -->
     <div class="absolute top-8 right-12 text-4xl header-decoration">
      🌟
     </div>
@@ -122,7 +124,8 @@
     <div id="profile-card" class="bg-white rounded-3xl shadow-xl p-5 border border-slate-100">
      <div id="profile-empty" class="text-center py-4">
       <div class="w-16 h-16 bg-blue-50 rounded-full mx-auto flex items-center justify-center mb-3">
-       <svg class="w-8 h-8 text-royal" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+       <svg class="w-8 h-8 text-royal" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
        </svg>
       </div>
       <p class="text-slate-400 text-sm">Belum ada data siswa</p>
@@ -131,7 +134,8 @@
      <div id="profile-filled" class="hidden">
       <div class="flex items-center gap-4">
        <div class="w-14 h-14 bg-gradient-to-br from-royal to-royalLight rounded-full flex items-center justify-center flex-shrink-0">
-        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
         </svg>
        </div>
        <div class="flex-1 min-w-0">
@@ -144,41 +148,55 @@
    </div><!-- Menu Grid -->
    <div class="px-4 mt-6">
     <h2 class="text-slate-700 font-bold text-lg mb-4 flex items-center gap-2"><span class="w-1.5 h-6 bg-royal rounded-full"></span> Menu Kebiasaan</h2>
-    <div class="grid grid-cols-2 gap-3"><!-- Identitas Siswa --> <button onclick="openModal('identitas')" class="habit-card bg-white rounded-2xl p-4 shadow-md border border-slate-100 text-left hover:shadow-lg">
-      <div class="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mb-3 text-2xl"><span class="habit-emoji">👤</span>
+    <div class="grid grid-cols-2 gap-3">
+     <!-- Identitas Siswa --> <button onclick="openModal('identitas')" class="habit-card bg-white rounded-2xl p-4 shadow-md border border-slate-100 text-left hover:shadow-lg">
+      <div class="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mb-3 text-2xl">
+       <span class="habit-emoji">👤</span>
       </div><h3 class="font-bold text-slate-700 text-sm">Identitas Siswa</h3><p class="text-slate-400 text-xs mt-0.5">Data diri</p></button> <!-- Bangun Pagi --> <button onclick="openModal('bangun')" class="habit-card bg-white rounded-2xl p-4 shadow-md border border-slate-100 text-left hover:shadow-lg">
-      <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-3 text-2xl"><span class="habit-emoji">🌅</span>
+      <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-3 text-2xl">
+       <span class="habit-emoji">🌅</span>
       </div><h3 class="font-bold text-slate-700 text-sm">Bangun Pagi</h3><p class="text-slate-400 text-xs mt-0.5">Kebiasaan 1</p></button> <!-- Beribadah --> <button onclick="openModal('ibadah')" class="habit-card bg-white rounded-2xl p-4 shadow-md border border-slate-100 text-left hover:shadow-lg">
-      <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-3 text-2xl"><span class="habit-emoji">🙏</span>
+      <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-3 text-2xl">
+       <span class="habit-emoji">🙏</span>
       </div><h3 class="font-bold text-slate-700 text-sm">Beribadah</h3><p class="text-slate-400 text-xs mt-0.5">Kebiasaan 2</p></button> <!-- Berolahraga --> <button onclick="openModal('olahraga')" class="habit-card bg-white rounded-2xl p-4 shadow-md border border-slate-100 text-left hover:shadow-lg">
-      <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-3 text-2xl"><span class="habit-emoji">🏃</span>
+      <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-3 text-2xl">
+       <span class="habit-emoji">🏃</span>
       </div><h3 class="font-bold text-slate-700 text-sm">Berolahraga</h3><p class="text-slate-400 text-xs mt-0.5">Kebiasaan 3</p></button> <!-- Makan Sehat --> <button onclick="openModal('makan')" class="habit-card bg-white rounded-2xl p-4 shadow-md border border-slate-100 text-left hover:shadow-lg">
-      <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-3 text-2xl"><span class="habit-emoji">🥗</span>
+      <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-3 text-2xl">
+       <span class="habit-emoji">🥗</span>
       </div><h3 class="font-bold text-slate-700 text-sm">Makan Sehat</h3><p class="text-slate-400 text-xs mt-0.5">Kebiasaan 4</p></button> <!-- Gemar Belajar --> <button onclick="openModal('belajar')" class="habit-card bg-white rounded-2xl p-4 shadow-md border border-slate-100 text-left hover:shadow-lg">
-      <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3 text-2xl"><span class="habit-emoji">📚</span>
+      <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3 text-2xl">
+       <span class="habit-emoji">📚</span>
       </div><h3 class="font-bold text-slate-700 text-sm">Gemar Belajar</h3><p class="text-slate-400 text-xs mt-0.5">Kebiasaan 5</p></button> <!-- Bermasyarakat --> <button onclick="openModal('masyarakat')" class="habit-card bg-white rounded-2xl p-4 shadow-md border border-slate-100 text-left hover:shadow-lg">
-      <div class="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center mb-3 text-2xl"><span class="habit-emoji">👥</span>
+      <div class="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center mb-3 text-2xl">
+       <span class="habit-emoji">👥</span>
       </div><h3 class="font-bold text-slate-700 text-sm">Bermasyarakat</h3><p class="text-slate-400 text-xs mt-0.5">Kebiasaan 6</p></button> <!-- Tidur Cepat --> <button onclick="openModal('tidur')" class="habit-card bg-white rounded-2xl p-4 shadow-md border border-slate-100 text-left hover:shadow-lg">
-      <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-3 text-2xl"><span class="habit-emoji">🌙</span>
+      <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-3 text-2xl">
+       <span class="habit-emoji">🌙</span>
       </div><h3 class="font-bold text-slate-700 text-sm">Tidur Cepat</h3><p class="text-slate-400 text-xs mt-0.5">Kebiasaan 7</p></button>
     </div>
    </div><!-- Rekap Section -->
    <div class="px-4 mt-8">
     <h2 class="text-slate-700 font-bold text-lg mb-4 flex items-center gap-2"><span class="w-1.5 h-6 bg-royal rounded-full"></span> Rekapan &amp; Laporan</h2><!-- Filter Buttons -->
-    <div class="flex gap-2 mb-4 overflow-x-auto pb-2"><button onclick="setFilter('daily')" id="filter-daily" class="filter-btn px-4 py-2 bg-royal text-white rounded-xl text-sm font-semibold whitespace-nowrap"> Harian </button> <button onclick="setFilter('weekly')" id="filter-weekly" class="filter-btn px-4 py-2 bg-white text-slate-600 rounded-xl text-sm font-semibold whitespace-nowrap border border-slate-200"> Mingguan </button> <button onclick="setFilter('monthly')" id="filter-monthly" class="filter-btn px-4 py-2 bg-white text-slate-600 rounded-xl text-sm font-semibold whitespace-nowrap border border-slate-200"> Bulanan </button>
+    <div class="flex gap-2 mb-4 overflow-x-auto pb-2">
+     <button onclick="setFilter('daily')" id="filter-daily" class="filter-btn px-4 py-2 bg-royal text-white rounded-xl text-sm font-semibold whitespace-nowrap"> Harian </button> <button onclick="setFilter('weekly')" id="filter-weekly" class="filter-btn px-4 py-2 bg-white text-slate-600 rounded-xl text-sm font-semibold whitespace-nowrap border border-slate-200"> Mingguan </button> <button onclick="setFilter('monthly')" id="filter-monthly" class="filter-btn px-4 py-2 bg-white text-slate-600 rounded-xl text-sm font-semibold whitespace-nowrap border border-slate-200"> Bulanan </button>
     </div><!-- Date Selector (For daily & weekly) -->
-    <div id="date-selector" class="mb-4 flex gap-2"><input type="date" id="select-date" class="flex-1 px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 font-semibold">
+    <div id="date-selector" class="mb-4 flex gap-2">
+     <input type="date" id="select-date" class="flex-1 px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 font-semibold">
     </div><!-- Month/Year Selector (For monthly) -->
-    <div id="month-selector" class="hidden mb-4 flex gap-2"><select id="select-month" class="flex-1 px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 font-semibold"> <option value="0">Januari</option> <option value="1">Februari</option> <option value="2">Maret</option> <option value="3">April</option> <option value="4">Mei</option> <option value="5">Juni</option> <option value="6">Juli</option> <option value="7">Agustus</option> <option value="8">September</option> <option value="9">Oktober</option> <option value="10">November</option> <option value="11">Desember</option> </select> <select id="select-year" class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 font-semibold"> </select>
+    <div id="month-selector" class="hidden mb-4 flex gap-2">
+     <select id="select-month" class="flex-1 px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 font-semibold"> <option value="0">Januari</option> <option value="1">Februari</option> <option value="2">Maret</option> <option value="3">April</option> <option value="4">Mei</option> <option value="5">Juni</option> <option value="6">Juli</option> <option value="7">Agustus</option> <option value="8">September</option> <option value="9">Oktober</option> <option value="10">November</option> <option value="11">Desember</option> </select> <select id="select-year" class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 font-semibold"> </select>
     </div><!-- Data List -->
     <div id="data-list" class="space-y-3 mb-4">
      <div class="bg-white rounded-2xl p-6 text-center border border-slate-100">
-      <svg class="w-12 h-12 text-slate-300 mx-auto mb-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+      <svg class="w-12 h-12 text-slate-300 mx-auto mb-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
       </svg>
       <p class="text-slate-400 text-sm">Belum ada data kebiasaan</p>
      </div>
     </div><!-- Export PDF Button --> <button onclick="exportPDF()" class="w-full bg-gradient-to-r from-royal to-royalDark text-white py-4 rounded-2xl font-bold text-base shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 hover:shadow-xl transition-shadow">
-     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
      </svg> Download Laporan PDF </button> <!-- Data Count -->
     <p id="data-count" class="text-center text-slate-400 text-xs mt-3">Total: 0 data</p>
    </div>
@@ -190,7 +208,8 @@
     <div id="modal-body"></div>
    </div>
   </div><!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-2xl text-sm font-semibold shadow-xl opacity-0 transition-opacity duration-300 z-50"><span id="toast-message">Data tersimpan!</span>
+  <div id="toast" class="fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-2xl text-sm font-semibold shadow-xl opacity-0 transition-opacity duration-300 z-50">
+   <span id="toast-message">Data tersimpan!</span>
   </div>
   <script>
     // Default configuration
@@ -702,73 +721,57 @@
       const rightMargin = 10;
       const lineSpacing = 3.5; // Spasi 1
       
-      // Function untuk menambah header di setiap halaman
-      function addPageHeader() {
-        doc.setFontSize(12);
-        doc.setFont(undefined, 'bold');
-        doc.text('JURNAL 7 KEBIASAAN ANAK INDONESIA HEBAT', centerX, 12, { align: 'center' });
-        
-        // School Name (centered, uppercase)
-        const schoolName = window.elementSdk?.config?.school_name || defaultConfig.school_name;
-        doc.text(schoolName.toUpperCase(), centerX, 18, { align: 'center' });
-        
-        // Student Info Section dengan dots alignment
-        doc.setFontSize(8);
-        doc.setFont(undefined, 'normal');
-        
-        // Hitung panjang teks untuk alignment dots
-        const labelWidth = 18; // Lebar label "Nama Siswa: ", dll
-        const dotsX = leftMargin + labelWidth;
-        
-        // Nama Siswa dengan dots
-        const namaText = `Nama Siswa:`;
-        doc.text(namaText, leftMargin, 26);
-        const namaWidth = doc.getTextWidth(namaText);
-        const dotsLength1 = (50 - namaWidth) / doc.getTextWidth('.');
-        doc.text('.'.repeat(Math.floor(dotsLength1)), leftMargin + namaWidth, 26);
-        doc.text(studentData.name, leftMargin + 50, 26);
-        
-        // Kelas dengan dots
-        const kelasText = `Kelas:`;
-        doc.text(kelasText, leftMargin, 26 + lineSpacing);
-        const kelasWidth = doc.getTextWidth(kelasText);
-        const dotsLength2 = (50 - kelasWidth) / doc.getTextWidth('.');
-        doc.text('.'.repeat(Math.floor(dotsLength2)), leftMargin + kelasWidth, 26 + lineSpacing);
-        doc.text(studentData.kelas, leftMargin + 50, 26 + lineSpacing);
-        
-        // No. Absen dengan dots
-        const absenText = `No. Absen:`;
-        doc.text(absenText, leftMargin, 26 + lineSpacing * 2);
-        const absenWidth = doc.getTextWidth(absenText);
-        const dotsLength3 = (50 - absenWidth) / doc.getTextWidth('.');
-        doc.text('.'.repeat(Math.floor(dotsLength3)), leftMargin + absenWidth, 26 + lineSpacing * 2);
-        doc.text(studentData.absen, leftMargin + 50, 26 + lineSpacing * 2);
-        
-        // Periode dengan dots
-        let filterText = 'Periode:';
-        let filterValue = '';
-        if (currentFilter === 'daily') {
-          filterValue = 'Harian (' + formatDate(document.getElementById('select-date').value) + ')';
-        } else if (currentFilter === 'weekly') {
-          const selectedDate = new Date(document.getElementById('select-date').value);
-          const weekStart = getWeekStart(selectedDate);
-          const weekEnd = new Date(weekStart);
-          weekEnd.setDate(weekEnd.getDate() + 6);
-          filterValue = 'Mingguan (' + formatDate(weekStart.toISOString().split('T')[0]) + ' - ' + formatDate(weekEnd.toISOString().split('T')[0]) + ')';
-        } else if (currentFilter === 'monthly') {
-          const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-          filterValue = months[parseInt(document.getElementById('select-month').value)] + ' ' + document.getElementById('select-year').value;
-        }
-        
-        doc.text(filterText, leftMargin, 26 + lineSpacing * 3);
-        const filterWidth = doc.getTextWidth(filterText);
-        const dotsLength4 = (50 - filterWidth) / doc.getTextWidth('.');
-        doc.text('.'.repeat(Math.floor(dotsLength4)), leftMargin + filterWidth, 26 + lineSpacing * 3);
-        doc.text(filterValue, leftMargin + 50, 26 + lineSpacing * 3);
+      // Add header HANYA di halaman pertama
+      doc.setFontSize(12);
+      doc.setFont(undefined, 'bold');
+      doc.text('JURNAL 7 KEBIASAAN ANAK INDONESIA HEBAT', centerX, 12, { align: 'center' });
+      
+      // School Name (centered, uppercase)
+      const schoolName = window.elementSdk?.config?.school_name || defaultConfig.school_name;
+      doc.text(schoolName.toUpperCase(), centerX, 18, { align: 'center' });
+      
+      // Student Info Section - Tanda titik sejajar vertikal
+      doc.setFontSize(8);
+      doc.setFont(undefined, 'normal');
+      
+      // Tentukan posisi kolom untuk rata kanan tanda titik
+      const colonX = leftMargin + 25; // Posisi tanda (:) sejajar
+      const valueX = colonX + 3; // Posisi nilai mulai dari sini
+      
+      // Nama Siswa
+      doc.text('Nama Siswa', leftMargin, 26);
+      doc.text(':', colonX, 26);
+      doc.text(studentData.name, valueX, 26);
+      
+      // Kelas
+      doc.text('Kelas', leftMargin, 26 + lineSpacing);
+      doc.text(':', colonX, 26 + lineSpacing);
+      doc.text(studentData.kelas, valueX, 26 + lineSpacing);
+      
+      // No. Absen
+      doc.text('No. Absen', leftMargin, 26 + lineSpacing * 2);
+      doc.text(':', colonX, 26 + lineSpacing * 2);
+      doc.text(studentData.absen, valueX, 26 + lineSpacing * 2);
+      
+      // Periode
+      let filterText = 'Periode';
+      let filterValue = '';
+      if (currentFilter === 'daily') {
+        filterValue = 'Harian (' + formatDate(document.getElementById('select-date').value) + ')';
+      } else if (currentFilter === 'weekly') {
+        const selectedDate = new Date(document.getElementById('select-date').value);
+        const weekStart = getWeekStart(selectedDate);
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekEnd.getDate() + 6);
+        filterValue = 'Mingguan (' + formatDate(weekStart.toISOString().split('T')[0]) + ' - ' + formatDate(weekEnd.toISOString().split('T')[0]) + ')';
+      } else if (currentFilter === 'monthly') {
+        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        filterValue = months[parseInt(document.getElementById('select-month').value)] + ' ' + document.getElementById('select-year').value;
       }
       
-      // Add header ke halaman pertama
-      addPageHeader();
+      doc.text(filterText, leftMargin, 26 + lineSpacing * 3);
+      doc.text(':', colonX, 26 + lineSpacing * 3);
+      doc.text(filterValue, valueX, 26 + lineSpacing * 3);
       
       // Group data by date
       const dataByDate = {};
@@ -819,14 +822,7 @@
       // Jarak 1 baris ke tabel (3.5mm) dari periode
       const tableStartY = 26 + lineSpacing * 4 + lineSpacing;
       
-      // Space for signature section at bottom
-      const signatureSectionHeight = 35; // Denpasar + spacing + labels + lines
-      const rowHeight = 8; // Approximate row height
-      const minRowsBeforeSignature = 2; // Minimal 2 baris data sebelum tanda tangan
-      const minSpaceForSignature = signatureSectionHeight + (minRowsBeforeSignature * rowHeight);
-      const availableHeight = pageHeight - tableStartY - 15; // Available space per page
-      
-      // Create table with calculated margins, didThrow untuk handle multiple pages
+      // Create table - tetap di halaman yang sama, lanjut ke halaman berikutnya jika perlu
       doc.autoTable({
         startY: tableStartY,
         head: [headers],
@@ -859,81 +855,21 @@
           7: { cellWidth: habitColWidth, halign: 'center' },
           8: { cellWidth: habitColWidth, halign: 'center' }
         },
-        margin: { left: leftMargin, right: rightMargin },
-        didDrawPage: function(data) {
-          // Add header to setiap halaman baru kecuali yang pertama
-          if (data.pageNumber > 1) {
-            addPageHeader();
-            // Adjust table position pada halaman berikutnya
-            data.startY = tableStartY;
-          }
-        },
-        // Ensure signature section tidak terpisah ke halaman baru
-        pageBreak: 'always',
-        allowPageBreak: true,
-        rowPageBreak: 'avoid'
+        margin: { left: leftMargin, right: rightMargin }
       });
       
-      // Add signature section di halaman terakhir
-      const finalY = doc.lastAutoTable.finalY;
-      const currentPage = doc.internal.getNumberOfPages();
-      
-      // Check if signature fit di halaman saat ini dengan minimal 2 baris data
-      // Jika tidak cukup ruang, pindah halaman (dan halaman baru akan punya header + 2 baris data)
-      if (finalY + minSpaceForSignature > pageHeight - 10) {
-        doc.addPage('landscape', 'a4');
-        addPageHeader();
-        // Re-draw table dengan 2 baris data di halaman terakhir
-        const lastTwoRows = tableData.slice(-2);
-        doc.autoTable({
-          startY: tableStartY,
-          head: [headers],
-          body: lastTwoRows,
-          theme: 'grid',
-          headStyles: {
-            fillColor: [255, 255, 255],
-            textColor: [0, 0, 0],
-            fontSize: 7,
-            fontStyle: 'bold',
-            halign: 'center',
-            valign: 'middle',
-            lineColor: [0, 0, 0],
-            lineWidth: 0.3
-          },
-          bodyStyles: {
-            fontSize: 7,
-            valign: 'top',
-            lineColor: [0, 0, 0],
-            lineWidth: 0.3
-          },
-          columnStyles: {
-            0: { cellWidth: noColWidth, halign: 'center' },
-            1: { cellWidth: dateColWidth, halign: 'left' },
-            2: { cellWidth: habitColWidth, halign: 'center' },
-            3: { cellWidth: habitColWidth, halign: 'center' },
-            4: { cellWidth: habitColWidth, halign: 'center' },
-            5: { cellWidth: habitColWidth, halign: 'center' },
-            6: { cellWidth: habitColWidth, halign: 'center' },
-            7: { cellWidth: habitColWidth, halign: 'center' },
-            8: { cellWidth: habitColWidth, halign: 'center' }
-          },
-          margin: { left: leftMargin, right: rightMargin },
-          pageBreak: 'avoid'
-        });
-        var signatureStartY = doc.lastAutoTable.finalY + 7;
-      } else {
-        var signatureStartY = finalY + 7; // 2 baris dari tabel
-      }
+      // Get final Y position untuk tanda tangan
+      const finalY = doc.lastAutoTable.finalY + 5;
       
       doc.setFontSize(8);
       doc.setFont(undefined, 'normal');
       
       // Tanggal di atas (kanan)
       const rightSideX = pageWidth - rightMargin - 50;
-      doc.text('Denpasar, ' + new Date().toLocaleDateString('id-ID'), rightSideX, signatureStartY);
+      doc.text('Denpasar, ' + new Date().toLocaleDateString('id-ID'), rightSideX, finalY);
       
       // Jarak 1 baris spasi (3.5mm), kemudian label Orang Tua/Wali (kiri) dan Wali Kelas (kanan) - sejajar
-      const labelY = signatureStartY + lineSpacing;
+      const labelY = finalY + lineSpacing;
       doc.text('Orang Tua/Wali', leftMargin + 8, labelY);
       doc.text('Wali Kelas', rightSideX, labelY);
       
@@ -971,5 +907,5 @@
       }
     });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9db0013d2418e794',t:'MTc3MzI4OTIxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9db00a1295a8e794',t:'MTc3MzI4OTU3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
