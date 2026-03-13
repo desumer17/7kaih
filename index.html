@@ -586,9 +586,16 @@
       } else if (currentFilter === 'monthly') {
         const month = parseInt(document.getElementById('select-month').value);
         const year = parseInt(document.getElementById('select-year').value);
+        
+        // Validasi: hanya data yang berada dalam bulan dan tahun tersebut
         return habitsData.filter(d => {
-          const date = new Date(d.date);
-          return date.getMonth() === month && date.getFullYear() === year;
+          const date = new Date(d.date + 'T00:00:00'); // Parse dengan timezone UTC
+          const dataMonth = date.getUTCMonth();
+          const dataYear = date.getUTCFullYear();
+          const dataDay = date.getUTCDate();
+          
+          // Hanya include jika bulan dan tahun cocok, dan tanggal antara 1-31
+          return dataMonth === month && dataYear === year && dataDay >= 1 && dataDay <= 31;
         });
       }
       return habitsData;
@@ -769,10 +776,7 @@
     }
 
     function exportPDF() {
-      const { jsPDF } = window.jspdf;
-      
       const filteredData = getFilteredData();
-      const allDates = getAllDatesInRange();
       
       if (!studentData || !studentData.name) {
         showToast('Mohon isi identitas siswa terlebih dahulu!');
@@ -784,186 +788,71 @@
         return;
       }
       
-      // Create simple PDF without chart first
-      createSimplePDF(filteredData, allDates);
+      createSimplePDF(filteredData);
     }
 
-    function createSimplePDF(filteredData, allDates) {
+    function createSimplePDF(filteredData) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF('landscape', 'mm', 'a4');
       
       const pageWidth = doc.internal.pageSize.getWidth();
-      const pageHeight = doc.internal.pageSize.getHeight();
       const centerX = pageWidth / 2;
-      const leftMargin = 10;
-      const rightMargin = 10;
-      const lineSpacing = 3.5;
+      const leftMargin = 8;
+      const rightMargin = 8;
       
-      // Generate correct date range based on filter FIRST
-      let correctAllDates = [];
-      if (currentFilter === 'daily') {
-        correctAllDates = [document.getElementById('select-date').value];
-      } else if (currentFilter === 'weekly') {
-        const selectedDate = new Date(document.getElementById('select-date').value);
-        const weekStart = getWeekStart(selectedDate);
-        const weekEnd = new Date(weekStart);
-        weekEnd.setDate(weekEnd.getDate() + 6);
-        
-        for (let d = new Date(weekStart); d <= weekEnd; d.setDate(d.getDate() + 1)) {
-          correctAllDates.push(d.toISOString().split('T')[0]);
-        }
-      } else if (currentFilter === 'monthly') {
-        const month = parseInt(document.getElementById('select-month').value);
-        const year = parseInt(document.getElementById('select-year').value);
-        const lastDay = new Date(year, month + 1, 0).getDate();
-        
-        for (let i = 1; i <= lastDay; i++) {
-          const d = new Date(year, month, i);
-          correctAllDates.push(d.toISOString().split('T')[0]);
-        }
-      }
-      
-      // Page 1: Header and Table
-      doc.setFontSize(12);
+      // Header
+      doc.setFontSize(14);
       doc.setFont(undefined, 'bold');
-      doc.text('JURNAL 7 KEBIASAAN ANAK INDONESIA HEBAT', centerX, 12, { align: 'center' });
+      doc.text('JURNAL 7 KEBIASAAN ANAK INDONESIA HEBAT', centerX, 10, { align: 'center' });
       
       const schoolName = window.elementSdk?.config?.school_name || defaultConfig.school_name;
-      doc.text(schoolName.toUpperCase(), centerX, 18, { align: 'center' });
+      doc.setFontSize(10);
+      doc.text(schoolName.toUpperCase(), centerX, 16, { align: 'center' });
       
-      doc.setFontSize(8);
+      // Student Info
+      doc.setFontSize(9);
       doc.setFont(undefined, 'normal');
+      doc.text(`Nama: ${studentData.name} | Kelas: ${studentData.kelas} | Absen: ${studentData.absen}`, leftMargin, 23);
       
-      const colonX = leftMargin + 25;
-      const valueX = colonX + 3;
-      
-      doc.text('Nama Siswa', leftMargin, 26);
-      doc.text(':', colonX, 26);
-      doc.text(studentData.name, valueX, 26);
-      
-      doc.text('Kelas', leftMargin, 26 + lineSpacing);
-      doc.text(':', colonX, 26 + lineSpacing);
-      doc.text(studentData.kelas, valueX, 26 + lineSpacing);
-      
-      doc.text('No. Absen', leftMargin, 26 + lineSpacing * 2);
-      doc.text(':', colonX, 26 + lineSpacing * 2);
-      doc.text(studentData.absen, valueX, 26 + lineSpacing * 2);
-      
-      let filterText = 'Periode';
-      let filterValue = '';
-      if (currentFilter === 'daily') {
-        filterValue = 'Harian (' + formatDate(document.getElementById('select-date').value) + ')';
-      } else if (currentFilter === 'weekly') {
-        const selectedDate = new Date(document.getElementById('select-date').value);
-        const weekStart = getWeekStart(selectedDate);
-        const weekEnd = new Date(weekStart);
-        weekEnd.setDate(weekEnd.getDate() + 6);
-        filterValue = 'Mingguan (' + formatDate(weekStart.toISOString().split('T')[0]) + ' - ' + formatDate(weekEnd.toISOString().split('T')[0]) + ')';
-      } else if (currentFilter === 'monthly') {
-        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-        filterValue = months[parseInt(document.getElementById('select-month').value)] + ' ' + document.getElementById('select-year').value;
-      }
-      
-      doc.text(filterText, leftMargin, 26 + lineSpacing * 3);
-      doc.text(':', colonX, 26 + lineSpacing * 3);
-      doc.text(filterValue, valueX, 26 + lineSpacing * 3);
-      
-      // Build table data with ALL dates in range - FIXED DATE RANGE
+      // Build table fast
       const habitTypes = ['bangun', 'ibadah', 'olahraga', 'makan', 'belajar', 'masyarakat', 'tidur'];
       const dataByDate = {};
+      
       filteredData.forEach(item => {
-        if (!dataByDate[item.date]) {
-          dataByDate[item.date] = {};
-        }
-        dataByDate[item.date][item.type] = item;
+        if (!dataByDate[item.date]) dataByDate[item.date] = {};
+        dataByDate[item.date][item.type] = item.time + (item.note ? ' - ' + item.note : '');
       });
       
-      const tableData = correctAllDates.map((date, index) => {
+      const allDates = Object.keys(dataByDate).sort();
+      const headers = ['No', 'Tanggal', ...habitTypes.map(t => habitConfig[t].title)];
+      
+      const tableData = allDates.map((date, i) => {
         const dayData = dataByDate[date] || {};
-        const row = [index + 1, formatDate(date)];
-        
-        habitTypes.forEach(type => {
-          const item = dayData[type];
-          if (item) {
-            const cellText = item.time + (item.note ? '\n' + item.note : '');
-            row.push(cellText);
-          } else {
-            row.push('');
-          }
-        });
-        
-        return row;
+        return [
+          i + 1,
+          formatDate(date),
+          ...habitTypes.map(t => dayData[t] || '')
+        ];
       });
-      
-      const headers = ['No', 'Tanggal'];
-      habitTypes.forEach(type => {
-        headers.push(habitConfig[type].title);
-      });
-      
-      const tableWidth = pageWidth - leftMargin - rightMargin;
-      const noColWidth = 8;
-      const dateColWidth = 25;
-      const habitColWidth = (tableWidth - noColWidth - dateColWidth) / 7;
-      
-      const tableStartY = 26 + lineSpacing * 4 + lineSpacing;
       
       doc.autoTable({
-        startY: tableStartY,
+        startY: 26,
         head: [headers],
         body: tableData,
-        theme: 'grid',
         headStyles: {
-          fillColor: [219, 234, 254],
-          textColor: [0, 0, 0],
-          fontSize: 7,
-          fontStyle: 'bold',
-          halign: 'center',
-          valign: 'middle',
-          lineColor: [0, 0, 0],
-          lineWidth: 0.3
+          fillColor: [37, 99, 235],
+          textColor: [255, 255, 255],
+          fontSize: 8,
+          fontStyle: 'bold'
         },
-        bodyStyles: {
-          fontSize: 7,
-          valign: 'top',
-          lineColor: [0, 0, 0],
-          lineWidth: 0.3
-        },
-        columnStyles: {
-          0: { cellWidth: noColWidth, halign: 'center' },
-          1: { cellWidth: dateColWidth, halign: 'left' },
-          2: { cellWidth: habitColWidth, halign: 'center' },
-          3: { cellWidth: habitColWidth, halign: 'center' },
-          4: { cellWidth: habitColWidth, halign: 'center' },
-          5: { cellWidth: habitColWidth, halign: 'center' },
-          6: { cellWidth: habitColWidth, halign: 'center' },
-          7: { cellWidth: habitColWidth, halign: 'center' },
-          8: { cellWidth: habitColWidth, halign: 'center' }
-        },
+        bodyStyles: { fontSize: 7 },
+        columnStyles: { 0: { cellWidth: 7 }, 1: { cellWidth: 22 } },
         margin: { left: leftMargin, right: rightMargin }
       });
       
-      const finalY = doc.lastAutoTable.finalY + 5;
-      
-      doc.setFontSize(8);
-      doc.setFont(undefined, 'normal');
-      
-      const rightSideX = pageWidth - rightMargin - 50;
-      doc.text('Denpasar, ' + new Date().toLocaleDateString('id-ID'), rightSideX, finalY);
-      
-      const labelY = finalY + lineSpacing;
-      doc.text('Orang Tua/Wali', leftMargin + 8, labelY);
-      doc.text('Wali Kelas', rightSideX, labelY);
-      
-      const signLineY = labelY + 15;
-      
-      doc.setDrawColor(0);
-      doc.setLineWidth(0.3);
-      doc.line(leftMargin + 8, signLineY, leftMargin + 43, signLineY);
-      doc.line(rightSideX, signLineY, rightSideX + 35, signLineY);
-      
-      const filename = `Jurnal_7KAIH_${studentData.name.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+      const filename = `Laporan_7KAIH_${studentData.name.replace(/\s+/g, '_')}.pdf`;
       doc.save(filename);
-      showToast('PDF rekapan berhasil didownload! 📄📊');
+      showToast('PDF berhasil didownload! 📄');
     }
 
     // Close modal on overlay click
@@ -973,5 +862,5 @@
       }
     });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dbae6caa4c481bc',t:'MTc3MzQwMzQ3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dbaf2a194dcce3a',t:'MTc3MzQwMzk1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
